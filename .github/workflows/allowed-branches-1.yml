@@ -7,9 +7,11 @@ on:
 #       - feature-*-*
 #       - release-*-*
 
+# Is this a good way of should I use webhooks instead to capture PR creation and close it out instead.
+
 jobs:
   allowed-merge:
-    if: ${{ github.head.ref == 'feature-*' }}
+    if: ${{ startsWith( github.head.ref , 'feature-' ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo-Success
@@ -17,7 +19,7 @@ jobs:
           echo "This is an allowed branch being merged"
   
   blocked-merge:
-    if: ${{ github.head.ref == 'feature-*' }}
+    if: ${{ !startsWith( github.head.ref , 'feature-' ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo-failure
