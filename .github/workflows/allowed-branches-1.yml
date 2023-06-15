@@ -9,7 +9,7 @@ on:
 
 jobs:
   allowed-merge:
-    if: (GITHUB_HEAD_REF == 'feature-*')
+    if: ${{ github.head.ref == 'feature-*' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo-Success
@@ -17,7 +17,7 @@ jobs:
           echo "This is an allowed branch being merged"
   
   blocked-merge:
-    if: (GITHUB_HEAD_REF != 'feature-*')
+    if: ${{ github.head.ref == 'feature-*' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo-failure
