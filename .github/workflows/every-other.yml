@@ -1,0 +1,35 @@
+name: every-other
+
+on:
+  schedule:
+    # Run at 5 PM every Friday
+    - cron:  '0 17 * * 5'
+  workflow_dispatch:
+
+jobs:
+  this-week:
+    runs-on: ubuntu-latest
+    steps:
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        id: week-test
+        run: |
+            #!/bin/bash
+            # Calculate the number of days since the reference date (Friday Jan 6th, 2023)
+            let days=( $(date '+%s') - $(date -d '2023-01-06' '+%s') )/(60*60*24)
+            # If the number of fortnights since the reference date is even, it's an "on" week
+            if (( (days / 14) % 2 == 0 )); then
+                echo "Not this week"
+                exit 1
+                
+            fi
+            echo "This week we do things"
+            exit 0
+      - name: Do a thing
+        id: the-thing
+        if: ${{ success() }} # This checks if the week test failed
+        run: |
+          echo "Now I have done the thing on the other friday"
+          echo `date`
+
+
