@@ -11,18 +11,18 @@ on:
 
 jobs:
   allowed-merge:
-    if: ${{ startsWith( github.head.ref , 'feature-' ) }}
+    if: ${{ startsWith( github.head_ref , 'feature-' ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo-Success
         run: |
-          echo "This is an allowed branch being merged"
+          echo "This is an allowed branch being merged ${{ github.head_ref }}"
   
   blocked-merge:
-    if: ${{ !startsWith( github.head.ref , 'feature-' ) }}
+    if: ${{ !startsWith( github.head_ref , 'feature-' ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo-failure
         run: |
-          echo "This is not an allowed branch ${github.head_ref}"
+          echo "This is not an allowed branch ${{ github.head_ref }}"
           exit 1
